@@ -4,8 +4,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 
-// Fix: Import from the correct file name (server.js, not socket.js)
-import { server, app } from "./src/lib/server.js";
+// Import from socket.js (correct file name)
+import { server, app } from "./src/lib/socket.js";
 import { connectDB } from "./src/lib/db.js";
 import authRoutes from "./src/routes/auth.route.js";
 import messageRoutes from "./src/routes/message.route.js";
