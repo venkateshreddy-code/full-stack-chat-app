@@ -46,7 +46,8 @@ async function startServer() {
             console.log("Setting up production static files...");
             app.use(express.static(path.join(__dirname, "../frontend/dist")));
             
-            app.get("*", (req, res) => {
+            // Use a more specific catch-all pattern instead of "*"
+            app.get(/^\/(?!api).*/, (req, res) => {
                 res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
             });
             console.log("✅ Static files configured");
