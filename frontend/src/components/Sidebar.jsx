@@ -177,10 +177,10 @@ const Sidebar = () => {
 
         {/* Users List */}
         <div
-          className="overflow-y-auto flex-1 py-3 relative scroll-fade min-h-0"
+          className="overflow-y-auto flex-1 relative scroll-fade min-h-0"
           style={{ animation: "fadeInUp 0.6s ease forwards" }}
         >
-          <div className="px-3">
+          <div className="px-3 py-3">
             {filteredUsers.length === 0 ? (
               <div className="text-center text-base-content py-4 select-none">
                 No users to display
