@@ -102,6 +102,8 @@ const Sidebar = () => {
         .scroll-fade {
           scrollbar-width: thin; /* Firefox */
           scrollbar-color: rgba(100, 116, 139, 0.4) transparent; /* Firefox */
+          flex-shrink: 1;
+          min-height: 0;
         }
         
         .scroll-fade::-webkit-scrollbar {
