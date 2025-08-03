@@ -81,22 +81,7 @@ const Sidebar = () => {
           }
         }
 
-        .scroll-fade::after {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 30px;
-          background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
-          pointer-events: none;
-          z-index: 1;
-        }
-
-        [data-theme='dark'] .scroll-fade::after {
-          background: linear-gradient(to bottom, rgba(17,24,39,0), rgba(17,24,39,1));
-        }
-
+        /* Custom Scrollbar CSS */
         .scroll-fade {
           scrollbar-width: thin;
           scrollbar-color: rgba(100, 116, 139, 0.4) transparent;
