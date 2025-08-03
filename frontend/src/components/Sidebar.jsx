@@ -6,8 +6,7 @@ import { Users } from "lucide-react";
 import { useThemeStore } from "../store/useThemeStore";
 
 const Sidebar = () => {
-  const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } =
-    useChatStore();
+  const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
   const { onlineUsers } = useAuthStore();
   const { theme } = useThemeStore();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
@@ -88,7 +87,9 @@ const Sidebar = () => {
           right: 0;
           height: 30px;
           background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+          pointer-events: none;
         }
+
         [data-theme='dark'] .scroll-fade::after {
           background: linear-gradient(to bottom, rgba(17,24,39,0), rgba(17,24,39,1));
         }
@@ -96,7 +97,7 @@ const Sidebar = () => {
 
       <aside
         data-theme={theme}
-        className="min-h-screen w-20 lg:w-72 border border-base-300 rounded-2xl shadow-md flex flex-col bg-base-100 text-base-content transition-all duration-300"
+        className="h-screen w-20 lg:w-72 border border-base-300 rounded-2xl shadow-md flex flex-col bg-base-100 text-base-content transition-all duration-300"
         style={{
           animation: "sidebarSlideIn 0.6s ease-out forwards",
         }}
@@ -110,12 +111,9 @@ const Sidebar = () => {
             </span>
           </div>
 
-          {/* Toggle switch with springy motion */}
+          {/* Toggle */}
           <div className="hidden lg:flex items-center justify-between">
-            <label
-              htmlFor="toggleOnline"
-              className="flex items-center cursor-pointer select-none"
-            >
+            <label htmlFor="toggleOnline" className="flex items-center cursor-pointer select-none">
               <div className="relative">
                 <input
                   type="checkbox"
@@ -125,19 +123,13 @@ const Sidebar = () => {
                   className="sr-only peer"
                   aria-label="Show online users only"
                 />
+                <div className="w-12 h-6 bg-base-300 rounded-full peer-focus:ring-2 peer-focus:ring-primary peer-checked:bg-primary transition-colors duration-300" />
                 <div
-                  className="w-12 h-6 bg-base-300 rounded-full peer-focus:ring-2 peer-focus:ring-primary
-                  peer-checked:bg-primary transition-colors duration-300"
-                ></div>
-                <div
-                  className="absolute left-0.5 top-0.5 bg-base-100 w-5 h-5 rounded-full shadow
-                  peer-checked:translate-x-6 peer-checked:bg-primary-focus transition-transform duration-500 ease-out"
+                  className="absolute left-0.5 top-0.5 bg-base-100 w-5 h-5 rounded-full shadow peer-checked:translate-x-6 peer-checked:bg-primary-focus transition-transform duration-500"
                   style={{ transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)" }}
-                ></div>
+                />
               </div>
-              <span className="ml-3 text-sm text-base-content">
-                Show online only
-              </span>
+              <span className="ml-3 text-sm text-base-content">Show online only</span>
             </label>
             <span className="text-xs text-base-content select-none whitespace-nowrap ml-4">
               ({onlineUsers.length - 1} online)
@@ -163,15 +155,9 @@ const Sidebar = () => {
                 <button
                   key={user._id}
                   onClick={() => setSelectedUser(user)}
-                  className={`user-item w-full flex items-center gap-4 p-3 rounded-lg transition
-                    duration-200 ease-in-out
-                    ${
-                      isSelected
-                        ? "bg-primary/20 ring-1 ring-primary"
-                        : "hover:bg-primary/10"
-                    }
-                    transform
-                    focus:outline-none focus:ring-2 focus:ring-primary`}
+                  className={`user-item w-full flex items-center gap-4 p-3 rounded-lg transition duration-200 ease-in-out ${
+                    isSelected ? "bg-primary/20 ring-1 ring-primary" : "hover:bg-primary/10"
+                  } transform focus:outline-none focus:ring-2 focus:ring-primary`}
                   style={{
                     animationDelay: `${index * 100}ms`,
                   }}
@@ -192,20 +178,10 @@ const Sidebar = () => {
                     )}
                   </div>
                   <div className="hidden lg:flex flex-col min-w-0">
-                    <p
-                      className={`font-semibold truncate ${
-                        isSelected
-                          ? "text-primary"
-                          : "text-base-content"
-                      }`}
-                    >
+                    <p className={`font-semibold truncate ${isSelected ? "text-primary" : "text-base-content"}`}>
                       {user.fullName}
                     </p>
-                    <p
-                      className={`text-sm truncate select-none ${
-                        isOnline ? "text-green-600" : "text-base-content/70"
-                      }`}
-                    >
+                    <p className={`text-sm truncate select-none ${isOnline ? "text-green-600" : "text-base-content/70"}`}>
                       {isOnline ? "Online" : "Offline"}
                     </p>
                   </div>
