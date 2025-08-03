@@ -97,21 +97,22 @@ const Sidebar = () => {
           background: linear-gradient(to bottom, rgba(17,24,39,0), rgba(17,24,39,1));
         }
 
-        /* Scrollbar styling */
-        .scrollbar-thin::-webkit-scrollbar {
+        /* Custom Scrollbar CSS */
+        .scroll-fade {
+          scrollbar-width: thin; /* Firefox */
+          scrollbar-color: rgba(100, 116, 139, 0.4) transparent; /* Firefox */
+        }
+        .scroll-fade::-webkit-scrollbar {
           width: 6px;
         }
-
-        .scrollbar-thin::-webkit-scrollbar-track {
+        .scroll-fade::-webkit-scrollbar-track {
           background: transparent;
         }
-
-        .scrollbar-thin::-webkit-scrollbar-thumb {
+        .scroll-fade::-webkit-scrollbar-thumb {
           background-color: rgba(100, 116, 139, 0.4);
           border-radius: 3px;
         }
-
-        [data-theme="dark"] .scrollbar-thin::-webkit-scrollbar-thumb {
+        [data-theme="dark"] .scroll-fade::-webkit-scrollbar-thumb {
           background-color: rgba(255, 255, 255, 0.2);
         }
       `}</style>
@@ -160,7 +161,7 @@ const Sidebar = () => {
 
         {/* Users List */}
         <div
-          className="overflow-y-auto flex-1 py-3 relative scroll-fade scrollbar-thin pr-1"
+          className="overflow-y-auto flex-1 py-3 relative scroll-fade pr-1"
           style={{ animation: "fadeInUp 0.6s ease forwards" }}
         >
           {filteredUsers.length === 0 ? (
@@ -198,11 +199,11 @@ const Sidebar = () => {
                       />
                     )}
                   </div>
-                  <div className="hidden lg:flex flex-col min-w-0">
+                  <div className="hidden lg:flex flex-col min-w-0 items-start">
                     <p className={`font-semibold truncate ${isSelected ? "text-primary" : "text-base-content"}`}>
                       {user.fullName}
                     </p>
-                    <p className={`text-sm truncate select-none ${isOnline ? "text-green-600" : "text-base-content/70"}`}>
+                    <p className={`text-sm truncate select-none flex-shrink-0 ${isOnline ? "text-green-600" : "text-base-content/70"}`}>
                       {isOnline ? "Online" : "Offline"}
                     </p>
                   </div>
