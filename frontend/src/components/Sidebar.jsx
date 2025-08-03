@@ -155,9 +155,10 @@ const Sidebar = () => {
 
         {/* Scrollable Users List */}
         <div
-          className="flex-1 overflow-y-auto relative scroll-fade min-h-0"
-          style={{ animation: "fadeInUp 0.6s ease forwards" }}
-        >
+  className="flex-1 overflow-y-auto bg-base-100 min-h-0"
+  style={{ animation: "fadeInUp 0.6s ease forwards" }}
+>
+
           <div className="px-3 py-3">
             {filteredUsers.length === 0 ? (
               <div className="text-center text-base-content py-4 select-none">
