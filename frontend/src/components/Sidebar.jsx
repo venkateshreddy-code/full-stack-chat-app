@@ -1,24 +1,33 @@
 import { useEffect, useState } from "react";
 import { Users } from "lucide-react";
 
+// IMPORTANT: You need to uncomment these imports and add them to your file:
+// import { useChatStore } from "../store/useChatStore";
+// import { useAuthStore } from "../store/useAuthStore";
+// import { useThemeStore } from "../store/useThemeStore";
+
 const Sidebar = () => {
-  // You'll need to replace these with your actual store hooks:
+  // UNCOMMENT THESE LINES AND REMOVE THE TEMPORARY ONES BELOW:
   // const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
   // const { onlineUsers, authUser } = useAuthStore();
   // const { theme } = useThemeStore();
   
-  const [users] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [isUsersLoading] = useState(false);
-  const [showOnlineOnly, setShowOnlineOnly] = useState(false);
+  // TEMPORARY - REMOVE THESE AND UNCOMMENT ABOVE:
+  const users = []; // This should come from useChatStore
+  const selectedUser = null; // This should come from useChatStore
+  const setSelectedUser = () => {}; // This should come from useChatStore
+  const isUsersLoading = false; // This should come from useChatStore
+  const getUsers = () => {}; // This should come from useChatStore
   
-  const onlineUsers = [];
-  const authUser = { _id: "current-user" };
-  const theme = "light";
+  const onlineUsers = []; // This should come from useAuthStore
+  const authUser = { _id: "current-user" }; // This should come from useAuthStore
+  const theme = "light"; // This should come from useThemeStore
+  
+  const [showOnlineOnly, setShowOnlineOnly] = useState(false);
 
   useEffect(() => {
-    // getUsers();
-  }, []);
+    getUsers(); // This will work once you uncomment the store hooks
+  }, [getUsers]);
 
   const filteredUsers = showOnlineOnly
     ? users.filter((user) => onlineUsers.includes(user._id))
