@@ -19,7 +19,6 @@ const Sidebar = () => {
     ? users.filter((user) => onlineUsers.includes(user._id))
     : users;
 
-  // Get online count excluding current user
   const onlineCount = onlineUsers.filter((id) => id !== authUser?._id).length;
 
   return isUsersLoading ? (
@@ -98,36 +97,32 @@ const Sidebar = () => {
           background: linear-gradient(to bottom, rgba(17,24,39,0), rgba(17,24,39,1));
         }
 
-        /* Custom Scrollbar CSS */
         .scroll-fade {
-          scrollbar-width: thin; /* Firefox */
-          scrollbar-color: rgba(100, 116, 139, 0.4) transparent; /* Firefox */
-          flex-shrink: 1;
-          min-height: 0;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(100, 116, 139, 0.4) transparent;
         }
-        
+
         .scroll-fade::-webkit-scrollbar {
           width: 6px;
         }
-        
+
         .scroll-fade::-webkit-scrollbar-track {
           background: transparent;
         }
-        
+
         .scroll-fade::-webkit-scrollbar-thumb {
           background-color: rgba(100, 116, 139, 0.4);
           border-radius: 3px;
-          transition: background-color 0.2s ease;
         }
-        
+
         .scroll-fade::-webkit-scrollbar-thumb:hover {
           background-color: rgba(100, 116, 139, 0.6);
         }
-        
+
         [data-theme="dark"] .scroll-fade::-webkit-scrollbar-thumb {
           background-color: rgba(255, 255, 255, 0.2);
         }
-        
+
         [data-theme="dark"] .scroll-fade::-webkit-scrollbar-thumb:hover {
           background-color: rgba(255, 255, 255, 0.3);
         }
@@ -135,10 +130,8 @@ const Sidebar = () => {
 
       <aside
         data-theme={theme}
-        className="h-screen w-20 lg:w-72 border border-base-300 rounded-2xl shadow-md flex flex-col bg-base-100 text-base-content transition-all duration-300"
-        style={{
-          animation: "sidebarSlideIn 0.6s ease-out forwards",
-        }}
+        className="flex flex-col h-full min-h-0 w-20 lg:w-72 border border-base-300 rounded-2xl shadow-md bg-base-100 text-base-content transition-all duration-300"
+        style={{ animation: "sidebarSlideIn 0.6s ease-out forwards" }}
       >
         {/* Header */}
         <div className="border-b border-base-300 p-5 flex flex-col gap-3 flex-shrink-0">
@@ -175,9 +168,9 @@ const Sidebar = () => {
           </div>
         </div>
 
-        {/* Users List */}
+        {/* Scrollable Users List */}
         <div
-          className="overflow-y-auto flex-1 relative scroll-fade min-h-0"
+          className="flex-1 overflow-y-auto relative scroll-fade min-h-0"
           style={{ animation: "fadeInUp 0.6s ease forwards" }}
         >
           <div className="px-3 py-3">
@@ -197,9 +190,7 @@ const Sidebar = () => {
                     className={`user-item w-full flex items-center gap-4 p-3 mb-2 rounded-lg transition duration-200 ease-in-out ${
                       isSelected ? "bg-primary/20 ring-1 ring-primary" : "hover:bg-primary/10"
                     } transform focus:outline-none focus:ring-2 focus:ring-primary`}
-                    style={{
-                      animationDelay: `${index * 100}ms`,
-                    }}
+                    style={{ animationDelay: `${index * 100}ms` }}
                     aria-pressed={isSelected}
                   >
                     <div className="relative flex-shrink-0">
@@ -220,7 +211,7 @@ const Sidebar = () => {
                       <p className={`font-semibold truncate ${isSelected ? "text-primary" : "text-base-content"}`}>
                         {user.fullName}
                       </p>
-                      <p className={`text-sm truncate select-none flex-shrink-0 ${isOnline ? "text-green-600" : "text-base-content/70"}`}>
+                      <p className={`text-sm truncate select-none ${isOnline ? "text-green-600" : "text-base-content/70"}`}>
                         {isOnline ? "Online" : "Offline"}
                       </p>
                     </div>
