@@ -7,7 +7,7 @@ import { useThemeStore } from "../store/useThemeStore";
 
 const Sidebar = () => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
-  const { onlineUsers } = useAuthStore();
+  const { onlineUsers, authUser } = useAuthStore();
   const { theme } = useThemeStore();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
 
@@ -18,6 +18,9 @@ const Sidebar = () => {
   const filteredUsers = showOnlineOnly
     ? users.filter((user) => onlineUsers.includes(user._id))
     : users;
+
+  // Get online count excluding current user
+  const onlineCount = onlineUsers.filter((id) => id !== authUser?._id).length;
 
   return isUsersLoading ? (
     <SidebarSkeleton />
@@ -93,6 +96,24 @@ const Sidebar = () => {
         [data-theme='dark'] .scroll-fade::after {
           background: linear-gradient(to bottom, rgba(17,24,39,0), rgba(17,24,39,1));
         }
+
+        /* Scrollbar styling */
+        .scrollbar-thin::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+          background-color: rgba(100, 116, 139, 0.4);
+          border-radius: 3px;
+        }
+
+        [data-theme="dark"] .scrollbar-thin::-webkit-scrollbar-thumb {
+          background-color: rgba(255, 255, 255, 0.2);
+        }
       `}</style>
 
       <aside
@@ -132,14 +153,14 @@ const Sidebar = () => {
               <span className="ml-3 text-sm text-base-content">Show online only</span>
             </label>
             <span className="text-xs text-base-content select-none whitespace-nowrap ml-4">
-              ({onlineUsers.length - 1} online)
+              ({onlineCount} online)
             </span>
           </div>
         </div>
 
         {/* Users List */}
         <div
-          className="overflow-y-auto flex-1 py-3 relative scroll-fade"
+          className="overflow-y-auto flex-1 py-3 relative scroll-fade scrollbar-thin pr-1"
           style={{ animation: "fadeInUp 0.6s ease forwards" }}
         >
           {filteredUsers.length === 0 ? (
