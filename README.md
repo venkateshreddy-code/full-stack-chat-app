@@ -36,13 +36,29 @@ A **real-time one-on-one chat application** built using the **MERN stack** with 
 
 ## 📸 Screenshots
 
-| Login Page | Chat UI | Chat Demo |
-|------------|---------|-----------|
-| ![Login](https://res.cloudinary.com/dh9gs449u/image/upload/v1754236362/Screenshot_2025-08-03_at_11.51.20_AM_jhzw5u.png) | ![Chat Container](https://res.cloudinary.com/dh9gs449u/image/upload/v1754236685/Screenshot_2025-08-03_at_11.55.02_AM_wztudj.png) | ![Chat Demo](https://res.cloudinary.com/dh9gs449u/image/upload/v1754237481/Screenshot_2025-08-03_at_12.10.43_PM_ehqbpu.png) |
+### 🔐 Login Page
+![Login](https://res.cloudinary.com/dh9gs449u/image/upload/v1754236362/Screenshot_2025-08-03_at_11.51.20_AM_jhzw5u.png)
 
-| Settings Page | Profile Page |
-|---------------|--------------|
-| ![Settings](https://res.cloudinary.com/dh9gs449u/image/upload/v1754237635/Screenshot_2025-08-03_at_12.12.45_PM_osfdom.png) | ![Profile](https://res.cloudinary.com/dh9gs449u/image/upload/v1754237702/Screenshot_2025-08-03_at_12.14.33_PM_smwr4o.png) |
+---
+
+### 💬 Chat Container
+![Chat Container](https://res.cloudinary.com/dh9gs449u/image/upload/v1754236685/Screenshot_2025-08-03_at_11.55.02_AM_wztudj.png)
+
+---
+
+### 📲 Chat Demo (Real-Time Messaging)
+![Chat Demo](https://res.cloudinary.com/dh9gs449u/image/upload/v1754237481/Screenshot_2025-08-03_at_12.10.43_PM_ehqbpu.png)
+
+---
+
+### ⚙️ Settings Page (Theme Selector)
+![Settings Page](https://res.cloudinary.com/dh9gs449u/image/upload/v1754237635/Screenshot_2025-08-03_at_12.12.45_PM_osfdom.png)
+
+---
+
+### 👤 Profile Page (Read-only name/email, profile pic upload)
+![Profile Page](https://res.cloudinary.com/dh9gs449u/image/upload/v1754237702/Screenshot_2025-08-03_at_12.14.33_PM_smwr4o.png)
+
 
 
 ## 🧪 Getting Started
