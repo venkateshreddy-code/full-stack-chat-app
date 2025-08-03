@@ -1,29 +1,29 @@
 import { useEffect, useState } from "react";
-import { useChatStore } from "../store/useChatStore";
-import SidebarSkeleton from "./skeletons/SidebarSkeleton";
-import { useAuthStore } from "../store/useAuthStore";
 import { Users } from "lucide-react";
-import { useThemeStore } from "../store/useThemeStore";
+
+// Mock data for demonstration
+const mockUsers = Array.from({ length: 20 }, (_, i) => ({
+  _id: `user-${i}`,
+  fullName: `User ${i + 1}`,
+  profilePic: `https://api.dicebear.com/7.x/avataaars/svg?seed=${i}`,
+}));
+
+const mockOnlineUsers = ["user-1", "user-3", "user-5", "user-7", "user-9"];
 
 const Sidebar = () => {
-  const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
-  const { onlineUsers, authUser } = useAuthStore();
-  const { theme } = useThemeStore();
+  const [users] = useState(mockUsers);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
-
-  useEffect(() => {
-    getUsers();
-  }, [getUsers]);
+  const [onlineUsers] = useState(mockOnlineUsers);
+  const [theme] = useState('light');
 
   const filteredUsers = showOnlineOnly
     ? users.filter((user) => onlineUsers.includes(user._id))
     : users;
 
-  const onlineCount = onlineUsers.filter((id) => id !== authUser?._id).length;
+  const onlineCount = onlineUsers.length;
 
-  return isUsersLoading ? (
-    <SidebarSkeleton />
-  ) : (
+  return (
     <>
       <style>{`
         @keyframes sidebarSlideIn {
@@ -49,21 +49,21 @@ const Sidebar = () => {
         
         /* Fixed scrollbar container */
         .scroll-container {
-          position: relative;
           flex: 1;
           min-height: 0;
-          overflow: hidden;
+          position: relative;
+          display: flex;
+          flex-direction: column;
         }
         
         .scroll-content {
-          height: 100%;
+          flex: 1;
           overflow-y: auto;
           overflow-x: hidden;
-          padding-right: 8px;
-          margin-right: -8px;
+          padding: 12px;
         }
         
-        /* Fade gradient overlay */
+        /* Fade gradient overlay - only show when content overflows */
         .scroll-container::after {
           content: "";
           position: absolute;
@@ -71,13 +71,19 @@ const Sidebar = () => {
           left: 0;
           right: 0;
           height: 20px;
-          background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+          background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.9));
           pointer-events: none;
           z-index: 1;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        
+        .scroll-container.has-overflow::after {
+          opacity: 1;
         }
         
         [data-theme='dark'] .scroll-container::after {
-          background: linear-gradient(to bottom, rgba(17,24,39,0), rgba(17,24,39,1));
+          background: linear-gradient(to bottom, rgba(17,24,39,0), rgba(17,24,39,0.9));
         }
         
         /* Custom scrollbar styling */
@@ -120,13 +126,13 @@ const Sidebar = () => {
 
       <aside
         data-theme={theme}
-        className="flex flex-col h-screen w-20 lg:w-72 border border-base-300 rounded-2xl shadow-md bg-base-100 text-base-content transition-all duration-300"
+        className="flex flex-col h-screen w-20 lg:w-72 border border-gray-200 rounded-2xl shadow-md bg-white text-gray-900 transition-all duration-300"
         style={{ animation: "sidebarSlideIn 0.6s ease-out forwards" }}
       >
         {/* Header */}
-        <div className="border-b border-base-300 p-5 flex flex-col gap-3 flex-shrink-0">
+        <div className="border-b border-gray-200 p-5 flex flex-col gap-3 flex-shrink-0">
           <div className="flex items-center gap-3">
-            <Users className="w-6 h-6 text-primary" />
+            <Users className="w-6 h-6 text-blue-600" />
             <span className="font-semibold text-lg truncate hidden lg:block select-none">
               Contacts
             </span>
@@ -144,28 +150,39 @@ const Sidebar = () => {
                   className="sr-only peer"
                   aria-label="Show online users only"
                 />
-                <div className="w-12 h-6 bg-base-300 rounded-full peer-focus:ring-2 peer-focus:ring-primary peer-checked:bg-primary transition-colors duration-300" />
+                <div className="w-12 h-6 bg-gray-200 rounded-full peer-focus:ring-2 peer-focus:ring-blue-600 peer-checked:bg-blue-600 transition-colors duration-300" />
                 <div
-                  className="absolute left-0.5 top-0.5 bg-base-100 w-5 h-5 rounded-full shadow peer-checked:translate-x-6 peer-checked:bg-primary-focus transition-transform duration-500"
+                  className="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full shadow peer-checked:translate-x-6 peer-checked:bg-blue-700 transition-transform duration-500"
                   style={{ transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)" }}
                 />
               </div>
-              <span className="ml-3 text-sm text-base-content">Show online only</span>
+              <span className="ml-3 text-sm text-gray-700">Show online only</span>
             </label>
-            <span className="text-xs text-base-content select-none whitespace-nowrap ml-4">
+            <span className="text-xs text-gray-500 select-none whitespace-nowrap ml-4">
               ({onlineCount} online)
             </span>
           </div>
         </div>
 
         {/* Users List - Fixed scrollable container */}
-        <div className="scroll-container">
+        <div 
+          className="scroll-container"
+          ref={(el) => {
+            if (el) {
+              const scrollContent = el.querySelector('.scroll-content');
+              if (scrollContent) {
+                const hasOverflow = scrollContent.scrollHeight > scrollContent.clientHeight;
+                el.classList.toggle('has-overflow', hasOverflow);
+              }
+            }
+          }}
+        >
           <div
-            className="scroll-content py-3 px-3"
+            className="scroll-content"
             style={{ animation: "fadeInUp 0.6s ease forwards" }}
           >
             {filteredUsers.length === 0 ? (
-              <div className="text-center text-base-content py-4 select-none">
+              <div className="text-center text-gray-500 py-4 select-none">
                 No users to display
               </div>
             ) : (
@@ -178,9 +195,11 @@ const Sidebar = () => {
                     key={user._id}
                     onClick={() => setSelectedUser(user)}
                     className={`user-item w-full flex items-center gap-4 p-3 mb-2 rounded-lg transition duration-200 ease-in-out ${
-                      isSelected ? "bg-primary/20 ring-1 ring-primary" : "hover:bg-primary/10"
-                    } transform focus:outline-none focus:ring-2 focus:ring-primary`}
-                    style={{ animationDelay: `${index * 100}ms` }}
+                      isSelected 
+                        ? "bg-blue-50 ring-1 ring-blue-600 text-blue-900" 
+                        : "hover:bg-gray-50"
+                    } transform focus:outline-none focus:ring-2 focus:ring-blue-600`}
+                    style={{ animationDelay: `${index * 50}ms` }}
                     aria-pressed={isSelected}
                   >
                     <div className="relative flex-shrink-0">
@@ -193,15 +212,15 @@ const Sidebar = () => {
                       {isOnline && (
                         <span
                           aria-label="Online"
-                          className="ping-badge absolute bottom-0 right-0 block w-3.5 h-3.5 rounded-full bg-green-500 ring-2 ring-base-100"
+                          className="ping-badge absolute bottom-0 right-0 block w-3.5 h-3.5 rounded-full bg-green-500 ring-2 ring-white"
                         />
                       )}
                     </div>
                     <div className="hidden lg:flex flex-col min-w-0 items-start">
-                      <p className={`font-semibold truncate ${isSelected ? "text-primary" : "text-base-content"}`}>
+                      <p className={`font-semibold truncate ${isSelected ? "text-blue-900" : "text-gray-900"}`}>
                         {user.fullName}
                       </p>
-                      <p className={`text-sm truncate select-none flex-shrink-0 ${isOnline ? "text-green-600" : "text-base-content/70"}`}>
+                      <p className={`text-sm truncate select-none flex-shrink-0 ${isOnline ? "text-green-600" : "text-gray-500"}`}>
                         {isOnline ? "Online" : "Offline"}
                       </p>
                     </div>
